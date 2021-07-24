@@ -56,7 +56,10 @@ export default function Start(props) {
 									backgroundColor: '#090C08',
 								},
 								backgroundColor === '#090C08' ? border.active : null,
-							]}>
+							]}
+							accessibilityLabel='Black background color'
+							accessibilityHint='Changes chat background color to black'
+							accessibilityRole='button'>
 							<Button
 								title=''
 								onPress={() => {
@@ -73,7 +76,10 @@ export default function Start(props) {
 									backgroundColor: '#474056',
 								},
 								backgroundColor === '#474056' ? border.active : null,
-							]}>
+							]}
+							accessibilityLabel='Dark gray background color'
+							accessibilityHint='Changes chat background color to dark gray'
+							accessibilityRole='button'>
 							<Button
 								title=''
 								onPress={() => {
@@ -90,7 +96,10 @@ export default function Start(props) {
 									backgroundColor: '#8A95A5',
 								},
 								backgroundColor === '#8A95A5' ? border.active : null,
-							]}>
+							]}
+							accessibilityLabel='Light gray background color'
+							accessibilityHint='Changes chat background color to light gray'
+							accessibilityRole='button'>
 							<Button
 								title=''
 								onPress={() => {
@@ -107,7 +116,10 @@ export default function Start(props) {
 									backgroundColor: '#B9C6AE',
 								},
 								backgroundColor === '#B9C6AE' ? border.active : null,
-							]}>
+							]}
+							accessibilityLabel='Green background color'
+							accessibilityHint='Changes chat background color to green'
+							accessibilityRole='button'>
 							<Button
 								title=''
 								onPress={() => {
@@ -127,6 +139,10 @@ export default function Start(props) {
 							}}
 							color={Platform.OS === 'ios' ? '#FFFFFF' : '#757083'}
 							style={styles.button}
+							accessible={true}
+							accessibilityLabel='Go to Chat screen'
+							accessibilityHint='Navigates to Chat screen'
+							accessibilityRole='button'
 						/>
 					</View>
 				</View>
