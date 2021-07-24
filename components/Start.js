@@ -55,7 +55,7 @@ export default function Start(props) {
 								{
 									backgroundColor: '#090C08',
 								},
-								border.active,
+								backgroundColor === '#090C08' ? border.active : null,
 							]}>
 							<Button
 								title=''
@@ -72,6 +72,7 @@ export default function Start(props) {
 								{
 									backgroundColor: '#474056',
 								},
+								backgroundColor === '#474056' ? border.active : null,
 							]}>
 							<Button
 								title=''
@@ -88,6 +89,7 @@ export default function Start(props) {
 								{
 									backgroundColor: '#8A95A5',
 								},
+								backgroundColor === '#8A95A5' ? border.active : null,
 							]}>
 							<Button
 								title=''
@@ -104,6 +106,7 @@ export default function Start(props) {
 								{
 									backgroundColor: '#B9C6AE',
 								},
+								backgroundColor === '#B9C6AE' ? border.active : null,
 							]}>
 							<Button
 								title=''
@@ -119,7 +122,7 @@ export default function Start(props) {
 							onPress={() => {
 								props.navigation.navigate('Chat', {
 									name: text,
-									backgroudColor: backgroundColor,
+									color: backgroundColor,
 								});
 							}}
 							color={Platform.OS === 'ios' ? '#FFFFFF' : '#757083'}
