@@ -18,6 +18,7 @@ Features:
 
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.dev/)
+- [Gifted Chat](https://github.com/FaridSafi/react-native-gifted-chat)
 
 <!-- GETTING STARTED -->
 
