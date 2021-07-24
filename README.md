@@ -38,7 +38,7 @@ If you want to clone this project and build upon it yourself you'll need to foll
 
 1. Install Expo globally on your machine
    ```sh
-   npm install -g expo
+   npm install -g expo-cli
    ```
 2. Clone the repo
    ```sh
