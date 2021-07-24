@@ -2,8 +2,6 @@
 
 ## Chat App with React Native
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 This project is a educational project about React Native. It is a chat app for mobile devices using React Native. The app provides users with a chat interface and options to share images and their
 location.
 
