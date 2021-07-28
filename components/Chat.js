@@ -2,9 +2,38 @@ import { Bubble, GiftedChat } from 'react-native-gifted-chat';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 
+/* const firebase = require('firebase');
+require('firebase/firestore');
+
+const useConstructor = (callBack = () => {}) => {
+	const [hasBeenCalled, setHasBeenCalled] = useRef(false);
+	if (hasBeenCalled) return;
+	callBack();
+	setHasBeenCalled(true);
+}; */
+
 export default function Chat(props) {
 	const { name, color } = props.route.params;
 	const [messages, setMessages] = useState([]);
+
+	/* useConstructor(() => {
+		if (!firebase.apps.length) {
+			firebase.initializeApp({
+				apiKey: 'AIzaSyBdzYEUB_CZgyask3dZACUXs9csz_ItYs0',
+				authDomain: 'chattyapp-863cc.firebaseapp.com',
+				projectId: 'chattyapp-863cc',
+				storageBucket: 'chattyapp-863cc.appspot.com',
+				messagingSenderId: '116642040466',
+				appId: '1:116642040466:web:cb892ce032a1e052c0744b',
+				measurementId: 'G-7H3EJSCR30',
+			});
+		}
+	}); */
+
+	/* 	useEffect(() => {
+		referenceChatMessages = firebase.firestore().collection('messages');
+		const unsubscribe = referenceShoppingLists.onSnapshot(onCollectionUpdate);
+	}, []); */
 
 	// sets name prop as title and initializies first messages
 	useEffect(() => {
