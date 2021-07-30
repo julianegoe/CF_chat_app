@@ -58,11 +58,6 @@ export default function Chat(props) {
 		};
 	}, []);
 
-	// appends new messages to messages object so it can be displayed
-	const onSend = (newMessages = []) => {
-		addMessage(newMessages[0]);
-	};
-
 	// callback function for onSnapshot to listen to changes in darabase
 	const onCollectionUpdate = (querySnapshot) => {
 		const messages = [];
@@ -76,22 +71,35 @@ export default function Chat(props) {
 					_id: data._id,
 					text: data.text,
 					createdAt: data.createdAt.toDate(),
-					user: {
-						_id: data.user._id,
-						name: data.user.name,
-						avatar: data.user.avatar,
-					},
+					user: data.user,
 				});
 			});
 			setMessages(messages);
 		} else return;
 	};
 
-	const addMessage = (message) => {
+	// appends new messages to messages object so it can be displayed
+	const onSend = (newMessages = []) => {
+		addMessage(newMessages[0]);
+	};
+
+	// adds messages to firebase
+	const addMessage = ({ _id, createdAt, text, user }) => {
+		setMessages((previousMessages) =>
+			GiftedChat.append(previousMessages, {
+				_id,
+				createdAt,
+				text,
+				user: {
+					_id: uid,
+					name: name,
+				},
+			})
+		);
 		reference.add({
-			_id: message._id,
-			text: message.text,
-			createdAt: message.createdAt,
+			_id,
+			createdAt,
+			text: `${text} from ${uid}`,
 			user: {
 				_id: uid,
 				name: name,
@@ -106,7 +114,6 @@ export default function Chat(props) {
 				<KeyboardAvoidingView behavior='height' />
 			) : null}
 
-			{/* Whole Chat UI out of the box */}
 			<GiftedChat
 				messages={messages}
 				user={{
@@ -116,9 +123,6 @@ export default function Chat(props) {
 				onSend={(currentMessage) => {
 					onSend(currentMessage);
 				}}
-				renderUsernameOnMessage={true}
-				showUserAvatar={false}
-				showAvatarForEveryMessage={true}
 				/* customizes color of speech bubble */
 				renderBubble={(props) => {
 					return (
@@ -132,7 +136,8 @@ export default function Chat(props) {
 									color: 'black',
 								},
 							}}
-							position={props.currentMessage.user._id == uid ? 'right' : 'left'}
+							// renders bubble according to current user
+							/* position={props.currentMessage.user._id == uid ? 'right' : 'left'} */
 						/>
 					);
 				}}
