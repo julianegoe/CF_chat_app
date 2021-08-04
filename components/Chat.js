@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { auth, db } from '../firebaseConfig';
 
 import { AsyncStorage } from 'react-native';
+import CustomActions from './CustomActions';
 import NetInfo from '@react-native-community/netinfo';
 
 export default function Chat(props) {
@@ -25,7 +26,6 @@ export default function Chat(props) {
 		// fetc connection status of user
 		NetInfo.fetch().then((connection) => {
 			if (connection.isConnected) {
-				console.log("I'm online");
 				setIsConnected(true);
 				// authenticates user and waits for changes in user auth state
 				authUnsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -59,7 +59,6 @@ export default function Chat(props) {
 
 	useEffect(() => {
 		saveMessagesOffline();
-		console.log('offline saved');
 	}, [messages]);
 
 	// callback function for onSnapshot to update messages state
@@ -73,9 +72,11 @@ export default function Chat(props) {
 				var data = doc.data();
 				messages.push({
 					_id: data._id,
-					text: data.text,
+					text: data.text || null,
 					createdAt: data.createdAt.toDate(),
 					user: data.user,
+					image: data.image || null,
+					location: data.location || null,
 				});
 			});
 			setMessages(messages);
@@ -83,16 +84,24 @@ export default function Chat(props) {
 	};
 
 	// appends new messages to messages object so it can be displayed
-	const handleSend = (currentMessage = []) => {
+	const handleSend = (currentMessages = []) => {
 		setMessages((previousMessages) =>
-			GiftedChat.append(previousMessages, currentMessage)
+			GiftedChat.append(previousMessages, currentMessages)
 		);
-		addMessage(currentMessage[0]);
+		console.log(currentMessages);
+		addMessage(currentMessages[0]);
 	};
 
 	// adds messages to firestore
 	const addMessage = (currentMessage) => {
-		messagesReference.add(currentMessage);
+		messagesReference.add({
+			_id: currentMessage._id,
+			text: currentMessage.text || '',
+			createdAt: currentMessage.createdAt || new Date(),
+			user: currentMessage.user || uid,
+			image: currentMessage.image || null,
+			location: currentMessage.location || null,
+		});
 	};
 
 	const getMessages = async () => {
@@ -144,6 +153,29 @@ export default function Chat(props) {
 		}
 	};
 
+	const renderCustomActions = (props) => (
+		<CustomActions {...props} onSend={handleSend} />
+	);
+
+	//custom map view
+	const renderCustomView = (props) => {
+		const { currentMessage } = props;
+		if (currentMessage.location) {
+			return (
+				<MapView
+					style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+					region={{
+						latitude: currentMessage.location.latitude,
+						longitude: currentMessage.location.longitude,
+						latitudeDelta: 0.0922,
+						longitudeDelta: 0.0421,
+					}}
+				/>
+			);
+		}
+		return null;
+	};
+
 	return (
 		/* Prevents Keyboard from hiding text input on Android phones */
 		<View style={{ flex: 1, backgroundColor: color }}>
@@ -166,6 +198,8 @@ export default function Chat(props) {
 				showAvatarForEveryMessage={true}
 				renderInputToolbar={renderInputToolbar}
 				renderUsernameOnMessage={true}
+				renderActions={renderCustomActions}
+				renderCustomView={renderCustomView}
 			/>
 		</View>
 	);
