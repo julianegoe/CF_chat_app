@@ -32,6 +32,11 @@ If you want to clone this project and build upon it yourself you'll need to foll
   ```sh
   npm install npm@latest -g
   ```
+- yarn
+
+```sh
+npm install --global yarn
+```
 
 ### Installation
 
@@ -46,6 +51,10 @@ If you want to clone this project and build upon it yourself you'll need to foll
 3. Install NPM packages
    ```sh
    npm install
+   ```
+   or
+   ```sh
+   yarn install
    ```
 4. start expo server
 
