@@ -5,6 +5,7 @@ import { auth, db } from '../firebaseConfig';
 
 import { AsyncStorage } from 'react-native';
 import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
 import NetInfo from '@react-native-community/netinfo';
 
 export default function Chat(props) {
@@ -88,17 +89,17 @@ export default function Chat(props) {
 		setMessages((previousMessages) =>
 			GiftedChat.append(previousMessages, currentMessages)
 		);
-		console.log(currentMessages);
 		addMessage(currentMessages[0]);
 	};
 
 	// adds messages to firestore
 	const addMessage = (currentMessage) => {
+		console.log(currentMessage);
 		messagesReference.add({
 			_id: currentMessage._id,
-			text: currentMessage.text || '',
+			text: currentMessage.text || null,
 			createdAt: currentMessage.createdAt || new Date(),
-			user: currentMessage.user || uid,
+			user: currentMessage.user,
 			image: currentMessage.image || null,
 			location: currentMessage.location || null,
 		});
@@ -153,9 +154,7 @@ export default function Chat(props) {
 		}
 	};
 
-	const renderCustomActions = (props) => (
-		<CustomActions {...props} onSend={handleSend} />
-	);
+	const renderCustomActions = (props) => <CustomActions {...props} />;
 
 	//custom map view
 	const renderCustomView = (props) => {
@@ -163,7 +162,7 @@ export default function Chat(props) {
 		if (currentMessage.location) {
 			return (
 				<MapView
-					style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+					style={{ width: 300, height: 200, margin: 5 }}
 					region={{
 						latitude: currentMessage.location.latitude,
 						longitude: currentMessage.location.longitude,

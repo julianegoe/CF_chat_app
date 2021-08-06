@@ -39,8 +39,10 @@ export default function CustomActions(props) {
 				const image = await ImagePicker.launchCameraAsync({
 					mediaTypes: 'Images',
 				}).catch((error) => console.log(error));
-
-				image.cancelled ? null : console.log(image);
+				if (!image.cancelled) {
+					const imageUrl = await uploadImage(image.uri);
+					props.onSend({ image: imageUrl });
+				}
 			}
 		} catch (error) {
 			console.log(error);
