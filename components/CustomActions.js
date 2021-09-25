@@ -116,7 +116,6 @@ export default function CustomActions(props) {
 			accessibilityLabel='Actions menu'
 			accessibilityHint='Display menu to send a picture, take a picture or send location'
 			accessibilityRole='menu'
-			useNativeDriver='false'
 		/>
 	);
 }

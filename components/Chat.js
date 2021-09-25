@@ -27,6 +27,7 @@ export default function Chat(props) {
 		// fetc connection status of user
 		NetInfo.fetch().then((connection) => {
 			if (connection.isConnected) {
+				console.log('app is online');
 				setIsConnected(true);
 				// authenticates user and waits for changes in user auth state
 				authUnsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -58,10 +59,6 @@ export default function Chat(props) {
 		};
 	}, []);
 
-	useEffect(() => {
-		saveMessagesOffline();
-	}, [messages]);
-
 	// callback function for onSnapshot to update messages state
 	const handleCollectionUpdate = (querySnapshot) => {
 		const messages = [];
@@ -90,6 +87,7 @@ export default function Chat(props) {
 			GiftedChat.append(previousMessages, currentMessages)
 		);
 		addMessage(currentMessages[0]);
+		saveMessagesOffline();
 	};
 
 	// adds messages to firestore
@@ -117,6 +115,7 @@ export default function Chat(props) {
 	const saveMessagesOffline = async () => {
 		try {
 			await AsyncStorage.setItem('messages', JSON.stringify(messages));
+			console.log('saved offline');
 		} catch (error) {
 			console.log(error.message);
 		}
